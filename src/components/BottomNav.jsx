@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const navItems = [
   { path: '/', label: '书架', icon: '📚' },
   { path: '/discover', label: '发现', icon: '🔍' },
+  
   { path: '/notes', label: '笔记', icon: '📝' },
   { path: '/me', label: '我的', icon: '👤' },
 ]
