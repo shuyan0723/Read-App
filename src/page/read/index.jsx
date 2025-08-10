@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { addNote } from '../../utils/notes.js'
+import { logEvent } from '../../utils/behavior.js'
 import { getItem, setItem } from '../../utils/storage.js'
 
 const Read = () => {
@@ -19,6 +20,13 @@ const Read = () => {
   useEffect(() => {
     setItem(storageKey, progress)
   }, [progress, storageKey])
+
+  useEffect(() => {
+    // 进入试读埋点
+    try {
+      logEvent('preview', { bookId: String(id) })
+    } catch {}
+  }, [id])
 
   const content = useMemo(
     () =>

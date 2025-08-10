@@ -1,4 +1,4 @@
-import { mockShelf, mockNotes, mockReadingProgress } from './mockData.js'
+import { mockShelf, mockNotes, mockReadingProgress, generateMockBookList } from './mockData.js'
 import { saveShelf } from './shelf.js'
 import { getNotes, addNote } from './notes.js'
 import { setItem } from './storage.js'
@@ -12,8 +12,21 @@ export function initMockData() {
   }
 
   try {
-    // 初始化书架数据
-    saveShelf(mockShelf)
+    // 初始化书架数据（扩充多分类与更多书籍）
+    const baseShelf = { ...mockShelf }
+    const extraBooks = generateMockBookList(24)
+      .map((b, idx) => ({
+        ...b,
+        id: `g${idx + 1}`,
+        cover: `https://picsum.photos/seed/book_g${idx + 1}/120/160`,
+      }))
+
+    const statusPool = ['toRead', 'reading', 'read']
+    const extraShelfEntries = Object.fromEntries(
+      extraBooks.map((book, i) => [book.id, { status: statusPool[i % statusPool.length], book }]),
+    )
+
+    saveShelf({ ...baseShelf, ...extraShelfEntries })
     
     // 初始化笔记数据
     const existingNotes = getNotes()

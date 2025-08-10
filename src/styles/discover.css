@@ -1,0 +1,488 @@
+:root {
+  /* 水墨风格色彩体系 - 优化为更贴近古籍色调 */
+  --ink-black: #1a1a1a;
+  --ink-gray: #4a4a4a;
+  --ink-light-gray: #7a7a7a;
+  --ink-paper: #f5f1e6; /* 更接近古籍纸张的颜色 */
+  --ink-paper-dark: #e8e0cc; /* 纸张深色变体 */
+  --ink-red: #8c2f39;
+  --ink-blue: #3a5f70;
+  --ink-green: #2c5e2e;
+  --ink-yellow: #a67c00;
+  --ink-brown: #8b5a2b; /* 新增棕色，用于古籍边框 */
+
+  /* 传统纹样元素 - 增强版 */
+  --pattern-bg: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 L90 10 L90 90 L10 90 Z' stroke='%23d9d2c5' stroke-width='1' fill='none'/%3E%3Cpath d='M30 10 L30 90' stroke='%23d9d2c5' stroke-width='1'/%3E%3Cpath d='M70 10 L70 90' stroke='%23d9d2c5' stroke-width='1'/%3E%3Cpath d='M10 30 L90 30' stroke='%23d9d2c5' stroke-width='1'/%3E%3Cpath d='M10 70 L90 70' stroke='%23d9d2c5' stroke-width='1'/%3E%3C/svg%3E");
+  --scroll-pattern: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q5 5 10 10 T20 10' stroke='%23d9d2c5' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
+  --book-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 5 L35 5 L35 35 L5 35 Z' stroke='%23d9d2c5' stroke-width='0.5' fill='none'/%3E%3Cpath d='M15 5 L15 35' stroke='%23d9d2c5' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+/* 发现页容器样式 - 古籍背景效果 */
+.discover-container {
+  padding: 24px 16px 80px;
+  background-color: var(--ink-paper);
+  background-image: var(--pattern-bg), var(--scroll-pattern);
+  background-size: 100px 100px, 20px 20px;
+  background-blend-mode: normal, overlay;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 增加纸张质感纹理 */
+.discover-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 标题样式 - 增强书法风格 */
+.discover-title {
+  font-family: 'Ma Shan Zheng', 'Noto Serif SC', serif;
+  font-size: 32px;
+  color: var(--ink-black);
+  margin-bottom: 32px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.discover-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 2px;
+  background-color: var(--ink-red);
+  margin: 8px auto 0;
+  position: relative;
+}
+
+.discover-title::before {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 1px;
+  background-color: var(--ink-gray);
+  margin: 0 auto 8px;
+}
+
+/* 搜索框样式 - 卷轴风格 */
+.discover-search {
+  margin-bottom: 32px;
+  position: relative;
+  padding: 8px;
+  background-color: var(--ink-paper-dark);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.discover-search input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid #c8beaa;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  color: var(--ink-black);
+  transition: all 0.3s ease;
+}
+
+.discover-search input:focus {
+  outline: none;
+  border-color: var(--ink-brown);
+  box-shadow: 0 0 0 2px rgba(139, 90, 43, 0.2);
+}
+
+/* 标签样式 - 古籍标签风格 */
+.discover-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  background-color: var(--ink-paper-dark);
+  border-radius: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.discover-tab {
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 1px solid #c8beaa;
+  color: var(--ink-gray);
+  font-size: 14px;
+  font-family: 'Noto Serif SC', serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.discover-tab.active {
+  background-color: var(--ink-brown);
+  border-color: var(--ink-brown);
+  color: white;
+}
+
+/* 书籍列表样式 - 古籍章节风格 */
+.book-section {
+  margin-bottom: 40px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  position: relative;
+  border: 1px solid #d9d2c5;
+}
+
+/* 卷轴装饰边角 */
+.book-section::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--ink-brown);
+  border-left: 2px solid var(--ink-brown);
+  border-radius: 3px 0 0 0;
+}
+
+.book-section::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--ink-brown);
+  border-right: 2px solid var(--ink-brown);
+  border-radius: 0 3px 0 0;
+}
+
+.section-footer::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--ink-brown);
+  border-left: 2px solid var(--ink-brown);
+  border-radius: 0 0 0 3px;
+}
+
+.section-footer::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--ink-brown);
+  border-right: 2px solid var(--ink-brown);
+  border-radius: 0 0 3px 0;
+}
+
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  color: var(--ink-black);
+  margin-bottom: 20px;
+  padding-left: 16px;
+  border-left: 3px solid var(--ink-red);
+  position: relative;
+}
+
+.section-title::before {
+  content: '『';
+  position: absolute;
+  left: -8px;
+  top: 0;
+  color: var(--ink-red);
+  font-size: 24px;
+}
+
+.section-title::after {
+  content: '』';
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  color: var(--ink-red);
+  font-size: 24px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* 书籍卡片样式 - 古籍封面风格 */
+.book-card {
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #d9d2c5;
+  position: relative;
+  background-image: var(--book-pattern);
+  background-size: 40px 40px;
+}
+
+.book-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-color: var(--ink-red);
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+.book-cover {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #d9d2c5;
+}
+
+.book-info {
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.book-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-black);
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  border-bottom: 1px dashed #d9d2c5;
+  padding-bottom: 4px;
+}
+
+.book-author {
+  font-size: 14px;
+  color: var(--ink-light-gray);
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
+.book-category {
+  font-size: 12px;
+  color: var(--ink-blue);
+  margin-bottom: 4px;
+}
+
+.book-rating {
+  font-size: 14px;
+  color: var(--ink-yellow);
+}
+
+/* 查看更多按钮 - 印章风格 */
+.more-btn {
+  display: block;
+  margin: 24px auto 0;
+  padding: 8px 24px;
+  border-radius: 4px;
+  background-color: var(--ink-red);
+  border: 1px solid var(--ink-red);
+  color: white;
+  font-size: 14px;
+  font-family: 'Noto Serif SC', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.more-btn:hover {
+  background-color: #6d1e27;
+  transform: translateY(-2px);
+}
+
+.more-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: rotate(45deg);
+  z-index: 0;
+  transition: all 0.6s ease;
+}
+
+.more-btn:hover::after {
+  left: 150%;
+}
+
+.more-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* 分类标签样式 - 书签风格 */
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px;
+  background-color: var(--ink-paper-dark);
+  border-radius: 4px;
+}
+
+.category-tag {
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid #c8beaa;
+  color: var(--ink-gray);
+  font-size: 14px;
+  font-family: 'Noto Serif SC', serif;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-tag:hover {
+  border-color: var(--ink-brown);
+  color: var(--ink-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.category-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--ink-red);
+}
+
+/* 响应式调整 */
+@media (min-width: 768px) {
+  .book-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .book-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .discover-container {
+    padding: 32px 40px 80px;
+  }
+}
+
+/* 传统纹样边框 - 增强版 */
+.pattern-border {
+  position: relative;
+  padding: 16px;
+}
+
+.pattern-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #d9d2c5, #d9d2c5 8px, transparent 8px, transparent 16px);
+}
+
+.pattern-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #d9d2c5, #d9d2c5 8px, transparent 8px, transparent 16px);
+}
+
+.pattern-border-left::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+  background: repeating-linear-gradient(180deg, #d9d2c5, #d9d2c5 8px, transparent 8px, transparent 16px);
+}
+
+.pattern-border-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  background: repeating-linear-gradient(180deg, #d9d2c5, #d9d2c5 8px, transparent 8px, transparent 16px);
+}
+
+/* 水墨效果卡片 - 增强版 */
+.ink-card {
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #d9d2c5;
+}
+
+.ink-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(217, 210, 197, 0.3) 0%, rgba(217, 210, 197, 0) 70%);
+  transform: rotate(30deg);
+  z-index: 0;
+}
+
+.ink-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 古籍页码装饰 */
+.page-number {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: var(--ink-light-gray);
+  font-size: 14px;
+  text-align: center;
+  margin: 16px 0;
+  position: relative;
+}
+
+.page-number::before, .page-number::after {
+  content: '—';
+  margin: 0 8px;
+  color: var(--ink-light-gray);
+}

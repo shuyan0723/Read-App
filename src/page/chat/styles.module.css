@@ -1,0 +1,121 @@
+/* 聊天容器 */
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f7f5f0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* 聊天头部 */
+.chatHeader {
+  padding: 16px;
+  background-color: #8c2f39;
+  color: white;
+  text-align: center;
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* 聊天消息区域 */
+.chatMessages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d0d0d0' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* 消息包装器 */
+.messageWrapper {
+  display: flex;
+  margin-bottom: 16px;
+  max-width: 80%;
+}
+
+/* 用户消息 */
+.userMessage {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+/* 助手消息 */
+.assistantMessage {
+  margin-right: auto;
+}
+
+/* 消息内容 */
+.messageContent {
+  padding: 12px;
+  border-radius: 8px;
+  position: relative;
+  word-break: break-word;
+}
+
+/* 用户消息内容 */
+.userMessage .messageContent {
+  background-color: #3a5f70;
+  color: white;
+}
+
+/* 助手消息内容 */
+.assistantMessage .messageContent {
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+/* 消息文本 */
+.messageText {
+  margin-bottom: 4px;
+  font-family: 'Noto Serif SC', serif;
+  line-height: 1.6;
+}
+
+/* 消息时间 */
+.messageTime {
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: right;
+}
+
+/* 加载状态 */
+.loadingWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* 输入区域 */
+.chatInput {
+  display: flex;
+  padding: 16px;
+  background-color: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* 输入框 */
+.input {
+  flex: 1;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+/* 发送按钮 */
+.sendButton {
+  border-radius: 20px;
+  min-width: 80px;
+  background-color: #8c2f39;
+  border-color: #8c2f39;
+}
+
+/* 响应式调整 */
+@media (max-width: 600px) {
+  .chatContainer {
+    max-width: 100%;
+  }
+  .messageWrapper {
+    max-width: 90%;
+  }
+}

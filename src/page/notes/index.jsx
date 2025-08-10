@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { exportNotesToText, getNotes } from '../../utils/notes.js'
+import '../../styles/notes.css'; // 导入笔记样式
 
 const Notes = () => {
   const [keyword, setKeyword] = useState('')
@@ -13,16 +14,16 @@ const Notes = () => {
   }, [keyword, list])
 
   return (
-    <div style={{ padding: 16, paddingBottom: 80 }}>
-      <h2>笔记</h2>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+    <div className="notes-container">
+      <h2 className="notes-title">笔记</h2>
+      <div className="notes-controls">
         <input
+          className="notes-search"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="搜索笔记..."
-          style={{ flex: 1, padding: 8 }}
         />
-        <button
+        <button className="export-btn"
           onClick={() => {
             const content = exportNotesToText()
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
@@ -38,16 +39,16 @@ const Notes = () => {
       </div>
 
       {filtered.length === 0 ? (
-        <div>暂无笔记</div>
+        <div className="empty-notes">暂无笔记</div>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul className="notes-list">
           {filtered.map((n) => (
-            <li key={n.id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 12, marginBottom: 8 }}>
-              <div style={{ fontSize: 12, color: '#999' }}>
+            <li key={n.id} className="note-item">
+              <div className="note-meta">
                 {new Date(n.createdAt).toLocaleString()} · 书籍 {n.bookId || '-'}
               </div>
-              {n.quote && <blockquote style={{ margin: '8px 0', color: '#555' }}>{n.quote}</blockquote>}
-              {n.text && <div style={{ whiteSpace: 'pre-wrap' }}>{n.text}</div>}
+              {n.quote && <blockquote className="note-quote">{n.quote}</blockquote>}
+              {n.text && <div className="note-text">{n.text}</div>}
             </li>
           ))}
         </ul>
@@ -55,4 +56,5 @@ const Notes = () => {
     </div>
   )
 }
+
 export default Notes
