@@ -10,7 +10,7 @@ const Me = () => {
   const readingStats = generateReadingStats()
   
   return (
-    <div className="me-container" style={{ padding: 16, paddingBottom: 80 }}>
+    <div className="me-container" style={{ padding: 16, paddingBottom: 60 }}>
       {/* <h2 className="me-title">我的书房</h2> */}
       
       {/* 用户信息 */}

@@ -3,7 +3,10 @@
   background-color: #f8f5f2;
   background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   min-height: 100vh;
-  font-family: 'Noto Serif SC', serif;
+  max-height: 100vh;
+  overflow: hidden;
+  font-family: 'Noto Serif SC serif';
+  block-size: border-box;
 }
 
 /* 优雅的标题 */
@@ -22,8 +25,8 @@
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  padding: 1.2rem;
-  margin-bottom: 1.2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
   border-left: 4px solid #c2a97e;
   transition: transform 0.3s ease;
 }
@@ -44,14 +47,14 @@
 .divider {
   height: 1px;
   background: linear-gradient(to right, transparent, #c2a97e, transparent);
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 /* 统计卡片样式 */
 .stats-card {
   background-color: white;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.7rem;
   box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
   border: 1px solid #f0e6d2;
@@ -63,9 +66,9 @@
 
 /* 统计标题 */
 .stats-title {
-  font-size: 0.9rem;
+  font-size: 0.8rem; 
   color: #8d6e63;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
   letter-spacing: 1px;
   text-transform: uppercase;
 }

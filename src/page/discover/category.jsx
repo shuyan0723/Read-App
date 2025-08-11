@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getCategoryByKey, getRelatedCategories } from '../../utils/categories.js'
 import { getTopRatedByCategory, getRecentlyAddedBooks, getThematicCollections, getCrossCategoryRecommendations, getBooksBySubcategory } from '../../services/bookService.js'
+import {mockBooks,mockCategories} from '../../utils/mockData.js'
 
 const CategoryPage = () => {
   const { key } = useParams()

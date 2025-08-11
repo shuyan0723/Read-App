@@ -5,6 +5,8 @@ import { searchBooks, getRecommendedBooks, getPopularBooks, getTopRatedBooks, ge
 import { MAIN_CATEGORIES } from '../../utils/categories.js'
 import { useDebounce } from '../../hooks/useDebounce.js'
 import '../../styles/discover.css' // 添加这一行
+import {mockBooks,mockUser,mockNotes } from '../../utils/mockData.js'
+
 
 const Discover = () => {
   const [query, setQuery] = useState('')
@@ -38,31 +40,34 @@ const Discover = () => {
   const [categoryBooks, setCategoryBooks] = useState([])
 
   // 加载推荐、热门、排行与分类/补充板块
-  useEffect(() => {
+  // ... existing code ...
+// 调整加载数据的数量，将8改为12或16
+useEffect(() => {
     async function loadData() {
       try {
         const [recData, popData, topData, his, phi, lit, soc, trd, rct, edi, hot, rlb,
           litC, litM, phiC, phiM, wnk, mne, per] = await Promise.all([
-          getRecommendedBooks(8),
-          getPopularBooks(8),
-          getTopRatedBooks(8),
-          getBooksByCategory('历史', 8),
-          getBooksByCategory('哲学', 8),
-          getBooksByCategory('文学', 8),
-          getBooksByCategory('社会文化', 8),
-          getTrendingBooks(8),
-          getRecentlyAddedBooks(8),
-          getEditorPicks(8),
-          getHotReading(8),
-          getReadingLeaderboard(8),
-          getBooksBySubcategory('文学', '经典著作', 8),
-          getBooksBySubcategory('文学', '当代作品', 8),
-          getBooksBySubcategory('哲学', '经典著作', 8),
-          getBooksBySubcategory('哲学', '当代作品', 8),
-          getWeeklyNewBooks(10),
-          getMonthlyEditorPicks(12),
-          getPersonalizedRecommendations(12),
+          getRecommendedBooks(12),  // 从8改为12
+          getPopularBooks(12),      // 从8改为12
+          getTopRatedBooks(12),     // 从8改为12
+          getBooksByCategory('历史', 12),  // 从8改为12
+          getBooksByCategory('哲学', 12),  // 从8改为12
+          getBooksByCategory('文学', 12),  // 从8改为12
+          getBooksByCategory('社会文化', 12),  // 从8改为12
+          getTrendingBooks(12),     // 从8改为12
+          getRecentlyAddedBooks(12), // 从8改为12
+          getEditorPicks(12),       // 从8改为12
+          getHotReading(12),        // 从8改为12
+          getReadingLeaderboard(12), // 从8改为12
+          getBooksBySubcategory('文学', '经典著作', 12), // 从8改为12
+          getBooksBySubcategory('文学', '当代作品', 12), // 从8改为12
+          getBooksBySubcategory('哲学', '经典著作', 12), // 从8改为12
+          getBooksBySubcategory('哲学', '当代作品', 12), // 从8改为12
+          getWeeklyNewBooks(16),    // 从10改为16
+          getMonthlyEditorPicks(16), // 从12改为16
+          getPersonalizedRecommendations(16), // 从12改为16
         ])
+// ... existing code ...
         const recList = Array.isArray(recData) ? recData : recData?.list || []
         const popList = Array.isArray(popData) ? popData : popData?.list || []
         setRecommended(recList)
@@ -199,6 +204,31 @@ const Discover = () => {
         />
       </div>
 
+{/* // 在组件中添加一个新的书籍列表区块 */}
+{/* // 在return语句中添加 */}
+{!query && renderBookList(mockBooks, '全部书籍', true)}
+{
+  !query && (
+    <div className="book-section">
+      <h3 className="section-title">热门书籍</h3>
+      <div className="book-grid">
+        {mockBooks.slice(0, 8).map((b) => (
+          <Link key={b.id} to={`/book/${b.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="book-card ink-card">
+              <img src={b.cover} alt={b.title} className="book-cover" />
+              <div className="book-info">
+                <div className="book-title">{b.title}</div>
+                <div className="book-author">{b.author}</div>
+                <div className="book-category">{b.category}</div>
+                <div className="book-rating">评分 {b.rating}</div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
       {/* 搜索结果 */}
       {query && (
         <div className="book-section">

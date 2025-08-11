@@ -224,9 +224,137 @@ export const mockBooks = [
     category: '科普',
     publishYear: 2014,
     priority: true
+  },
+  // ... existing code ...
+// 在mockBooks数组末尾添加以下新书籍
+  {
+    id: '21',
+    title: '解忧杂货店',
+    author: '东野圭吾',
+    cover: 'https://picsum.photos/seed/book_jygzd/240/320',
+    rating: '8.5',
+    summary: '在僻静街道旁的一家杂货店，只要写下烦恼投进店前门卷帘门的投信口，第二天就会在店后的牛奶箱里得到回答。',
+    category: '小说',
+    publishYear: 2012,
+    priority: true
+  },
+  {
+    id: '22',
+    title: '围城',
+    author: '钱钟书',
+    cover: 'https://picsum.photos/seed/book_wc/240/320',
+    rating: '8.7',
+    summary: '《围城》是钱钟书所著的长篇小说，以留学归国的方鸿渐为主角，描绘了抗日战争初期知识分子的群像。',
+    category: '文学',
+    publishYear: 1947,
+    priority: false
+  },
+  {
+    id: '23',
+    title: '嫌疑人X的献身',
+    author: '东野圭吾',
+    cover: 'https://picsum.photos/seed/book_xyrdxs/240/320',
+    rating: '9.0',
+    summary: '百年一遇的数学天才石神，每天唯一的乐趣，便是去固定的便当店买午餐，只为看一眼在便当店做事的邻居靖子。',
+    category: '悬疑',
+    publishYear: 2005,
+    priority: true
+  },
+  {
+    id: '24',
+    title: '哈利波特与魔法石',
+    author: 'J.K.罗琳',
+    cover: 'https://picsum.photos/seed/book_hp1/240/320',
+    rating: '9.2',
+    summary: '一岁的哈利·波特失去父母后，被寄养在姨妈家，饱受欺凌。十一岁生日那天，他收到了霍格沃茨魔法学校的录取通知书，从此开始了奇幻的魔法之旅。',
+    category: '奇幻',
+    publishYear: 1997,
+    priority: true
+  },
+  {
+    id: '25',
+    title: '被讨厌的勇气',
+    author: '岸见一郎',
+    cover: 'https://picsum.photos/seed/book_btydyq/240/320',
+    rating: '8.6',
+    summary: '本书以希腊哲学的苏格拉底对话式写法，探讨了“人如何能够获得幸福”这一哲学命题。',
+    category: '心理学',
+    publishYear: 2013,
+    priority: true
+  },
+  {
+    id: '26',
+    title: '云边有个小卖部',
+    author: '张嘉佳',
+    cover: 'https://picsum.photos/seed/book_ybygxb/240/320',
+    rating: '8.3',
+    summary: '让刘十三陪着你，走进云边镇的春夏秋冬，见证每一场相遇与离别。',
+    category: '小说',
+    publishYear: 2018,
+    priority: true
+  },
+  {
+    id: '27',
+    title: '中国通史',
+    author: '吕思勉',
+    cover: 'https://picsum.photos/seed/book_zgtongshi/240/320',
+    rating: '9.1',
+    summary: '《中国通史》是吕思勉先生的通史代表作，是一部简明扼要、深入浅出的中国通史读物。',
+    category: '历史',
+    publishYear: 1923,
+    priority: false
+  },
+  {
+    id: '28',
+    title: 'Python编程：从入门到实践',
+    author: '埃里克·马瑟斯',
+    cover: 'https://picsum.photos/seed/book_python/240/320',
+    rating: '8.9',
+    summary: '本书是一本面向初学者的Python编程入门书籍，通过实际项目帮助读者掌握Python编程技能。',
+    category: '技术',
+    publishYear: 2016,
+    priority: true
+  },
+  {
+    id: '29',
+    title: '沉默的大多数',
+    author: '王小波',
+    cover: 'https://picsum.photos/seed/book_cmdszd/240/320',
+    rating: '9.0',
+    summary: '《沉默的大多数》是王小波的一部杂文集，收录了他对社会、文化、人性等方面的思考。',
+    category: '杂文',
+    publishYear: 1997,
+    priority: false
+  },
+  {
+    id: '30',
+    title: '活着本来单纯',
+    author: '丰子恺',
+    cover: 'https://picsum.photos/seed/book_hzbldc/240/320',
+    rating: '8.8',
+    summary: '《活着本来单纯》是丰子恺的一部散文集，收录了他对生活、艺术、自然的感悟。',
+    category: '散文',
+    publishYear: 2016,
+    priority: true
   }
+// ... existing code ...
+]
+// 在mockBooks数组之后添加以下代码
+// 书籍分类数据
+export const mockCategories = [
+  { key: 'literature', name: '文学' },
+  { key: 'history', name: '历史' },
+  { key: 'philosophy', name: '哲学' },
+  { key: 'science', name: '科幻' },
+  { key: 'technology', name: '技术' },
+  { key: 'psychology', name: '心理学' },
+  { key: 'society', name: '社会文化' },
+  { key: 'business', name: '商业' },
+  { key: 'popular', name: '科普' },
+  { key: 'classics', name: '古典文学' }
 ]
 
+// ... existing code ...
 // 用户数据
 export const mockUser = {
   id: 'user_001',

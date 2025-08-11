@@ -8,7 +8,7 @@
 
 /* 笔记本页面容器 */
 .notes-container {
-  padding: 24px 16px 80px;
+  padding: 24px 16px 80px; 
   background-color: var(--notebook-paper);
   /* 纸张纹理效果 */
   background-image: 

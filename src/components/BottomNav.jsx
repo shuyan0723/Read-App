@@ -5,7 +5,6 @@ const navItems = [
   { path: '/', label: '书架', icon: '📚' },
   { path: '/discover', label: '发现', icon: '🔍' },
   { path: '/ai', label: 'AI', icon: '🤖' },
-
   { path: '/notes', label: '笔记', icon: '📝' },
   { path: '/me', label: '我的', icon: '👤' },
 ]
