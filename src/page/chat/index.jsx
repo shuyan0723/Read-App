@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Button, Input, Loading, Toast } from 'react-vant'
+import { Button, Loading } from 'react-vant'
 import styles from './styles.module.css'
+import axios from '../../api/config'
+
+import { streamChat } from '../../llm'  // 导入流式调用函数
+import CustomInput from '../../components/CustomInput'
+import showToast from '../../components/CustomToast'
+
 
 export default function BookChat() {
   // 状态管理
@@ -9,8 +15,9 @@ export default function BookChat() {
   ])
   const [inputText, setInputText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [currentStreamMessageId, setCurrentStreamMessageId] = useState(null)
   const messagesEndRef = useRef(null)
-
+ 
   // 自动滚动到底部
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -22,9 +29,9 @@ export default function BookChat() {
   }, [messages])
 
   // 处理发送消息
-  const handleSendMessage = () => {
+  const handleSendMessage = async() => {
     if (!inputText.trim()) {
-      Toast('请输入内容后发送')
+      showToast('请输入内容后发送') 
       return
     }
 
@@ -33,26 +40,71 @@ export default function BookChat() {
       id: Date.now(),
       text: inputText,
       sender: 'user',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      time: new Date().toLocaleTimeString([], 
+        { hour: '2-digit', minute: '2-digit' })
     }
-
     setMessages(prevMessages => [...prevMessages, userMessage])
     setInputText('')
     setIsLoading(true)
 
-    // 模拟AI回复
-    setTimeout(() => {
-      const aiResponse = {
-        id: Date.now() + 1,
-        text: '感谢您的提问！我们有丰富的书籍资源和阅读建议，请问您对哪类书籍感兴趣？',
-        sender: 'assistant',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }
+    // 创建一个新的AI消息ID
+    const aiMessageId = Date.now() + 1;
+    setCurrentStreamMessageId(aiMessageId);
 
-      setMessages(prevMessages => [...prevMessages, aiResponse])
-      setIsLoading(false)
-      Toast('收到回复')
-    }, 1500)
+    // 添加一个空的AI消息占位符
+    const initialAiMessage = {
+      id: aiMessageId,
+      text: '',
+      sender: 'assistant',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      isStreaming: true
+    };
+    setMessages(prevMessages => [...prevMessages, initialAiMessage]);
+
+    // 调用流式API
+    const messagesForAPI = [
+      { role: 'system', content: '您好！欢迎使用读书智能客服。请问有什么可以帮助您的？' },
+      { role: 'user', content: inputText }
+    ];
+
+    streamChat(
+      messagesForAPI,
+      // 接收每个chunk的回调
+      (chunk, accumulatedContent) => {
+        setMessages(prevMessages => {
+          return prevMessages.map(msg => {
+            if (msg.id === aiMessageId) {
+              return { ...msg, text: accumulatedContent };
+            }
+            return msg;
+          });
+        });
+      },
+      // 完成回调
+      (fullContent) => {
+        setMessages(prevMessages => {
+          return prevMessages.map(msg => {
+            if (msg.id === aiMessageId) {
+              return { ...msg, isStreaming: false };
+            }
+            return msg;
+          });
+        });
+        setIsLoading(false);
+        setCurrentStreamMessageId(null);
+        showToast('回复完成');
+      },
+      // 错误回调
+      (error) => {
+        setMessages(prevMessages => {
+          return prevMessages.filter(msg => msg.id !== aiMessageId);
+        });
+        setIsLoading(false);
+        setCurrentStreamMessageId(null);
+        showToast('获取回复失败，请稍后重试');
+        console.error('Chat stream error:', error);
+      }
+    );
   }
 
   // 处理回车键发送消息
@@ -72,7 +124,8 @@ export default function BookChat() {
         {messages.map(message => (
           <div
             key={message.id}
-            className={`${styles.messageWrapper} ${message.sender === 'user' ? styles.userMessage : styles.assistantMessage}`}
+            className={`${styles.messageWrapper} 
+            ${message.sender === 'user' ? styles.userMessage : styles.assistantMessage}`}
           >
             <div className={styles.messageContent}>
               <div className={styles.messageText}>{message.text}</div>
@@ -80,7 +133,7 @@ export default function BookChat() {
             </div>
           </div>
         ))}
-        {isLoading && (
+        {isLoading && currentStreamMessageId === null && (
           <div className={styles.loadingWrapper}>
             <Loading size="20" className={styles.loading} />
           </div>
@@ -89,13 +142,14 @@ export default function BookChat() {
       </div>
 
       <div className={styles.chatInput}>
-        <Input
+        <CustomInput
           value={inputText}
           onChange={e => setInputText(e.target.value)}
           placeholder="请输入您的问题..."
           onKeyPress={handleKeyPress}
           className={styles.input}
           clearable
+          disabled={isLoading}
         />
         <Button
           type="primary"

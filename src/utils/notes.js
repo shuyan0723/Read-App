@@ -9,7 +9,8 @@ export function getNotes() {
 export function addNote(note) {
   const list = getNotes()
   const newNote = {
-    id: String(Date.now()),
+    id:`${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+
     createdAt: Date.now(),
     ...note,
   }
@@ -28,5 +29,16 @@ export function exportNotesToText() {
   })
   return lines.join('\n\n---\n\n')
 }
-
+// 添加到 notes.js 文件末尾
+export function cleanupDuplicateNotes() {
+  const list = getNotes()
+  const uniqueIds = new Set()
+  const uniqueList = list.filter(note => {
+    if (uniqueIds.has(note.id)) return false
+    uniqueIds.add(note.id)
+    return true
+  })
+  setItem(NOTES_KEY, uniqueList)
+  return uniqueList
+}
 

@@ -1,0 +1,94 @@
+/* 文艺风格的背景 */
+.me-container {
+  background-color: #f8f5f2;
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  min-height: 100vh;
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* 优雅的标题 */
+.me-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2.5rem;
+  color: #5d4037;
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* 精致的用户信息卡片 */
+.user-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  border-left: 4px solid #c2a97e;
+  transition: transform 0.3s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 用户名称样式 */
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #3e2723;
+  margin-bottom: 0.5rem;
+}
+
+/* 分隔线装饰 */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #c2a97e, transparent);
+  margin: 1rem 0;
+}
+
+/* 统计卡片样式 */
+.stats-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #f0e6d2;
+}
+
+.stats-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* 统计标题 */
+.stats-title {
+  font-size: 0.9rem;
+  color: #8d6e63;
+  margin-bottom: 0.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* 统计数值 */
+.stats-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #5d4037;
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* 书架统计标题 */
+.shelf-title {
+  font-size: 1.2rem;
+  color: #5d4037;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.shelf-title::before {
+  content: '📚';
+  margin-right: 0.5rem;
+}

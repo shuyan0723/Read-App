@@ -4,6 +4,20 @@ import { lazy, Suspense } from 'react'
 import ErrorBoundary from './components/ErrorBoundary'
 import BottomNav from './components/BottomNav'
 import ThemeToggle from './components/ThemeToggle'
+// import CustomToast from './components/CustomToast'
+// 在 App.jsx 中添加
+import { cleanupDuplicateNotes } from './utils/notes'
+// import { useEffect } from 'react'
+
+// 在组件挂载时清理重复笔记
+// useEffect(() => {
+//   cleanupDuplicateNotes()
+// }, [])
+
+// 清理重复笔记
+// useEffect(() => {
+//   cleanupDuplicateNotes()
+// }, [])
 
 const Shelf = lazy(() => import('./page/shelf'))
 const Discover = lazy(() => import('./page/discover'))

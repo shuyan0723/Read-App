@@ -4,6 +4,9 @@ import { listByStatus, removeFromShelf, setStatus } from '../../utils/shelf.js'
 import { resetMockData } from '../../utils/initMockData.js'
 import { useDebounce } from '../../hooks/useDebounce.js'
 
+// 添加到文件顶部导入样式文件
+import './shelf-style.css';
+
 const Shelf = () => {
   const [activeTab, setActiveTab] = useState('toRead')
   const tabs = [
@@ -44,10 +47,58 @@ const Shelf = () => {
     return Array.from(m.entries()) // [category, books[]]
   }, [filteredBooks])
 
+  // 将书籍卡片组件定义移到 return 语句之前
+  const BookCard = ({ book, activeTab, setStatus, removeFromShelf }) => {
+    return (
+      <div className="book-card">
+        <Link to={`/book/${book.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <img src={book.cover} alt={book.title} className="book-cover" />
+          <div className="book-title">{book.title}</div>
+          <div className="book-author">{book.author} · {book.category}</div>
+        </Link>
+        <div className="book-actions">
+          {activeTab === 'toRead' && (
+            <button
+              onClick={() => setStatus(book.id, 'reading')}
+              className="action-button primary"
+            >
+              开始阅读
+            </button>
+          )}
+          {activeTab === 'reading' && (
+            <>
+              <button
+                onClick={() => setStatus(book.id, 'read')}
+                className="action-button success"
+              >
+                标记已读
+              </button>
+              <button
+                onClick={() => removeFromShelf(book.id)}
+                className="action-button danger"
+              >
+                删除
+              </button>
+            </>
+          )}
+          {activeTab === 'read' && (
+            <button
+              onClick={() => removeFromShelf(book.id)}
+              className="action-button danger"
+            >
+              删除
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // 将返回部分修改为使用类名而不是内联样式
   return (
-    <div style={{ padding: 16, paddingBottom: 80 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2 style={{ margin: 0 }}>我的书架</h2>
+    <div className="shelf-container">
+      <div className="shelf-header">
+        <h2>我的书架</h2>
         <button
           className="btn btn-outline"
           onClick={() => {
@@ -62,40 +113,29 @@ const Shelf = () => {
       </div>
       
       {/* 标签页 */}
-      <div style={{ display: 'flex', marginBottom: 16, borderBottom: '1px solid #eee' }}>
+      <div className="tabs-container">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
+            className={`tab-button ${activeTab === tab.key ? 'active' : ''}`}
             style={{
-              flex: 1,
-              padding: '12px 8px',
-              border: 'none',
-              background: 'none',
               borderBottom: activeTab === tab.key ? `2px solid ${tab.color}` : '2px solid transparent',
               color: activeTab === tab.key ? tab.color : '#666',
-              fontWeight: activeTab === tab.key ? 600 : 400,
             }}
           >
             {tab.label}
           </button>
         ))}
       </div>
-
+  
       {/* 搜索与开关 */}
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '12px 0' }}>
+      <div className="search-container">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="搜索书名/作者/分类"
-          style={{
-            flex: 1,
-            padding: '10px 12px',
-            borderRadius: 10,
-            border: '1px solid var(--border)',
-            background: 'transparent',
-            color: 'var(--text)',
-          }}
+          className="search-input"
         />
         <button
           className={`btn ${groupByCategory ? 'btn-primary' : 'btn-outline'}`}
@@ -105,24 +145,23 @@ const Shelf = () => {
           {groupByCategory ? '按分类分组' : '不分组'}
         </button>
       </div>
-
+  
       {/* 分类筛选 */}
-      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 8, marginBottom: 8 }}>
+      <div className="categories-container">
         {categories.map((c) => (
           <button
             key={c}
             className={`btn ${activeCategory === c ? 'btn-primary' : 'btn-outline'}`}
             onClick={() => setActiveCategory(c)}
-            style={{ whiteSpace: 'nowrap' }}
           >
             {c}
           </button>
         ))}
       </div>
-
+  
       {/* 书籍列表 */}
       {filteredBooks.length === 0 ? (
-        <div style={{ textAlign: 'center', color: '#999', marginTop: 40 }}>
+        <div className="empty-state">
           {activeTab === 'toRead' && '暂无待读书籍'}
           {activeTab === 'reading' && '暂无在读书籍'}
           {activeTab === 'read' && '暂无已读书籍'}
@@ -130,107 +169,22 @@ const Shelf = () => {
       ) : (
         <>
           {groupByCategory && activeCategory === '全部' ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <div className="grouped-books">
               {grouped.map(([cat, list]) => (
-                <div key={cat}>
-                  <div style={{
-                    fontSize: 14,
-                    color: 'var(--muted)',
-                    margin: '6px 2px 8px',
-                    fontWeight: 600,
-                  }}>{cat}（{list.length}）</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+                <div key={cat} className="category-group">
+                  <div className="category-title">{cat}（{list.length}）</div>
+                  <div className="books-grid">
                     {list.map((book) => (
-                      <div key={book.id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 8 }}>
-                        <Link to={`/book/${book.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                          <img src={book.cover} alt={book.title} style={{ width: '100%', borderRadius: 6 }} />
-                          <div style={{ marginTop: 8, fontWeight: 600 }}>{book.title}</div>
-                          <div style={{ color: '#666', fontSize: 12 }}>{book.author} · {book.category}</div>
-                        </Link>
-                        <div style={{ marginTop: 8, display: 'flex', gap: 4 }}>
-                          {activeTab === 'toRead' && (
-                            <button
-                              onClick={() => setStatus(book.id, 'reading')}
-                              style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#007aff', color: 'white', border: 'none', borderRadius: 4 }}
-                            >
-                              开始阅读
-                            </button>
-                          )}
-                          {activeTab === 'reading' && (
-                            <>
-                              <button
-                                onClick={() => setStatus(book.id, 'read')}
-                                style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#34c759', color: 'white', border: 'none', borderRadius: 4 }}
-                              >
-                                标记已读
-                              </button>
-                              <button
-                                onClick={() => removeFromShelf(book.id)}
-                                style={{ padding: '4px 8px', fontSize: 12, background: '#ff3b30', color: 'white', border: 'none', borderRadius: 4 }}
-                              >
-                                删除
-                              </button>
-                            </>
-                          )}
-                          {activeTab === 'read' && (
-                            <button
-                              onClick={() => removeFromShelf(book.id)}
-                              style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#ff3b30', color: 'white', border: 'none', borderRadius: 4 }}
-                            >
-                              删除
-                            </button>
-                          )}
-                        </div>
-                      </div>
+                      <BookCard key={book.id} book={book} activeTab={activeTab} setStatus={setStatus} removeFromShelf={removeFromShelf} />
                     ))}
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+            <div className="books-grid">
               {filteredBooks.map((book) => (
-                <div key={book.id} style={{ border: '1px solid #eee', borderRadius: 8, padding: 8 }}>
-                  <Link to={`/book/${book.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <img src={book.cover} alt={book.title} style={{ width: '100%', borderRadius: 6 }} />
-                    <div style={{ marginTop: 8, fontWeight: 600 }}>{book.title}</div>
-                    <div style={{ color: '#666', fontSize: 12 }}>{book.author} · {book.category}</div>
-                  </Link>
-                  <div style={{ marginTop: 8, display: 'flex', gap: 4 }}>
-                    {activeTab === 'toRead' && (
-                      <button
-                        onClick={() => setStatus(book.id, 'reading')}
-                        style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#007aff', color: 'white', border: 'none', borderRadius: 4 }}
-                      >
-                        开始阅读
-                      </button>
-                    )}
-                    {activeTab === 'reading' && (
-                      <>
-                        <button
-                          onClick={() => setStatus(book.id, 'read')}
-                          style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#34c759', color: 'white', border: 'none', borderRadius: 4 }}
-                        >
-                          标记已读
-                        </button>
-                        <button
-                          onClick={() => removeFromShelf(book.id)}
-                          style={{ padding: '4px 8px', fontSize: 12, background: '#ff3b30', color: 'white', border: 'none', borderRadius: 4 }}
-                        >
-                          删除
-                        </button>
-                      </>
-                    )}
-                    {activeTab === 'read' && (
-                      <button
-                        onClick={() => removeFromShelf(book.id)}
-                        style={{ flex: 1, padding: '4px 8px', fontSize: 12, background: '#ff3b30', color: 'white', border: 'none', borderRadius: 4 }}
-                      >
-                        删除
-                      </button>
-                    )}
-                  </div>
-                </div>
+                <BookCard key={book.id} book={book} activeTab={activeTab} setStatus={setStatus} removeFromShelf={removeFromShelf} />
               ))}
             </div>
           )}
